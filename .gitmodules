@@ -1,3 +1,3 @@
 [submodule "socketify_extra/uWebSockets"]
-    path = socketify_extra/uWebSockets
-    url = https://github.com/RajaSunrise/uWebSockets
+	path = socketify_extra/uWebSockets
+	url = https://github.com/RajaSunrise/uWebSockets.git
