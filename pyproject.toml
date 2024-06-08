@@ -1,0 +1,30 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "socketify-extra"
+version = "0.1.0"
+description = "The fastest framework for Python right now"
+readme = "README.md"
+authors = ["RajaSunrise <indra020204@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/RajaSunrise/socketify-extra"
+documentation = "https://docs.socketify.com"
+keywords = ["socketify", "framework", "fast", "Python framework"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+include = [
+    "README.md",
+    "socketify_extra/**/*.so",
+    "socketify_extra/**/*.dll",
+    "socketify_extra/uWebSockets/**/*",
+    "socketify_extra/native/**/*",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+cffi = ">=1.16.0"
