@@ -1,0 +1,18 @@
+name: macOS Build
+on: workflow_dispatch
+jobs:
+ build-macos:
+    runs-on: macos-11.0
+    name: Build on darwin-amd64
+    steps:
+      - name: Update binaries
+        run: |
+          git clone --recursive https://github.com/RajaSunrise/socketify-extra.git
+          cd socketify-extra/socketify_extra/native
+          make macos
+          cd ../
+          git add libsocketify_darwin_amd64.so
+          git config --global user.email "indra020204@gmail.com"
+          git config --global user.name "RajaSunrise"
+          git commit -m "[GitHub Actions] Updated darwin-amd64" || true
+          git push "https://RajaSunrise:${{ secrets.BUILDTOKEN }}@github.com/RajaSunrise/socketify-extra.git"
