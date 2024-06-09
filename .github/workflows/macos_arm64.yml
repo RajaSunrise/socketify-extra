@@ -14,12 +14,15 @@ jobs:
           # Configure libuv for static library and arm64
           cmake . -DCMAKE_OSX_ARCHITECTURES=arm64 -DBUILD_SHARED_LIBS=OFF
           cmake --build .
+          # Store the path to the libuv library for later use
+          libuv_path=$(pwd)
           cd ../
           # Build socketify-extra for arm64 
           git clone --recursive https://github.com/RajaSunrise/socketify-extra.git
           cd socketify-extra/socketify_extra/native
           # Use 'make' command to build for arm64 with static libuv
-          make macos-arm64-libuv-static-cmake
+          # Use the stored path to the libuv library
+          make macos-arm64-libuv-static-cmake LIBUV_PATH=$libuv_path
           cd ../
           git add libsocketify_darwin_arm64.so
           git config --global user.email "indra020204@gmail.com"
