@@ -15,7 +15,7 @@ jobs:
           $Env:CXX='clang++'
           
           git clone --recursive https://github.com/RajaSunrise/socketify-extra.git
-          cd socketify.py\src\socketify\native
+          cd socketify-extra\socketify_extra\native
           vcpkg install libuv:x64-windows-static-md
           vcpkg integrate install
           
