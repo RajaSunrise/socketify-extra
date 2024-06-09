@@ -19,7 +19,7 @@ jobs:
           vcpkg install libuv:x64-windows-static-md
           vcpkg integrate install
           
-          cd ..\uWebSockets\uSockets\boringssl 
+          cd .\uWebSockets\uSockets\boringssl 
           mkdir amd64 
           cd amd64
           cmake -DCMAKE_BUILD_TYPE=Release -GNinja .. && ninja crypto ssl
