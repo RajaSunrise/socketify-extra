@@ -2,7 +2,7 @@ name: Windows Build
 
 on: workflow_dispatch
 jobs:
- build-windows:
+  build-windows:
     runs-on: windows-latest
     name: Build on windows-amd64
     steps:
@@ -13,20 +13,23 @@ jobs:
           $ErrorActionPreference = 'SilentlyContinue'
           $Env:CC='clang'
           $Env:CXX='clang++'
-          
+
           git clone --recursive https://github.com/RajaSunrise/socketify-extra.git
           cd socketify-extra\socketify_extra\native
           vcpkg install libuv:x64-windows-static-md
           vcpkg integrate install
-          
-          cd ..\uWebSockets\uSockets\boringssl 
-          mkdir amd64 
+
+          cd ..\uWebSockets\uSockets\boringssl
+          mkdir amd64
           cd amd64
           cmake -DCMAKE_BUILD_TYPE=Release -GNinja .. && ninja crypto ssl
-          
-          cd ..\..\..\..\
-          cl /MD /W3 /D /EHsc /Zc:__cplusplus /Ox /DLL /D_WINDLL /LD /D "NOMINMAX" /D "WIN32_LEAN_AND_MEAN" /D "UWS_NO_ZLIB" /D "UWS_WITH_PROXY" /D "LIBUS_USE_LIBUV" /I native/src/ /I uWebSockets/src /I uWebSockets/capi /I uWebSockets/uSockets/boringssl/include /D "LIBUS_USE_OPENSSL" /std:c++20 /I C:\vcpkg\packages\libuv_x64-windows-static-md\include /I uWebSockets/uSockets/src /Felibsocketify_windows_amd64.dll ./native/src/libsocketify.cpp uWebSockets/uSockets/src/*.c uWebSockets/uSockets/src/crypto/*.cpp uWebSockets/uSockets/src/eventing/*.c uWebSockets/uSockets/src/crypto/*.c advapi32.lib uWebSockets/uSockets/boringssl/amd64/ssl/ssl.lib uWebSockets/uSockets/boringssl/amd64/crypto/crypto.lib C:\vcpkg\installed\x64-windows-static-md\lib\libuv.lib iphlpapi.lib userenv.lib psapi.lib user32.lib shell32.lib dbghelp.lib ole32.lib uuid.lib ws2_32.lib
 
+          cd ..\..\..\..\
+          # Set environment variable pointing to boringssl libraries
+          $Env:BORINGSSL_LIB_PATH = "$PWD\uWebSockets\uSockets\boringssl\amd64"
+
+          # Use the LIB environment variable to specify the library search path
+          cl /MD /W3 /D /EHsc /Zc:__cplusplus /Ox /DLL /D_WINDLL /LD /D "NOMINMAX" /D "WIN32_LEAN_AND_MEAN" /D "UWS_NO_ZLIB" /D "UWS_WITH_PROXY" /D "LIBUS_USE_LIBUV" /I native/src/ /I uWebSockets/src /I uWebSockets/capi /I uWebSockets/uSockets/boringssl/include /D "LIBUS_USE_OPENSSL" /std:c++20 /I C:\vcpkg\packages\libuv_x64-windows-static-md\include /I uWebSockets/uSockets/src /Felibsocketify_windows_amd64.dll ./native/src/libsocketify.cpp uWebSockets/uSockets/src/*.c uWebSockets/uSockets/src/crypto/*.cpp uWebSockets/uSockets/src/eventing/*.c uWebSockets/uSockets/src/crypto/*.c advapi32.lib  %BORINGSSL_LIB_PATH%\ssl\ssl.lib %BORINGSSL_LIB_PATH%\crypto\crypto.lib C:\vcpkg\installed\x64-windows-static-md\lib\libuv.lib iphlpapi.lib userenv.lib psapi.lib user32.lib shell32.lib dbghelp.lib ole32.lib uuid.lib ws2_32.lib 
           git add libsocketify_windows_amd64.dll
           git config --global user.email "indra020204@gmail.com"
           git config --global user.name "RajaSunrise"
