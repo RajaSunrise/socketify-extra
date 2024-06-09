@@ -18,4 +18,4 @@ jobs:
           git config --global user.email "indra020204@gmail.com"
           git config --global user.name "RajaSunrise"
           git commit -m "[GitHub Actions] Updated linux-amd64 binaries" || true
-          git push "https://RajaSunrise:${{ secrets.BUILD }}@github.com/RajaSunrise/socketify-extra.git"
+          git push "https://RajaSunrise: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@github.com/RajaSunrise/socketify-extra.git"
