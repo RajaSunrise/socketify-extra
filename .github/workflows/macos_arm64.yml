@@ -16,7 +16,7 @@ jobs:
           git clone --recursive https://github.com/RajaSunrise/socketify-extra
           cd socketify-extra/socketify_extra/native
           make macos-arm64-libuv-static-cmake
-          cd ../
+          cd ./
           git add libsocketify_darwin_arm64.so
           git config --global user.email "indra020204@gmail.com"
           git config --global user.name "RajaSunrise"
