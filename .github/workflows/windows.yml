@@ -14,11 +14,9 @@ jobs:
           $ErrorActionPreference = 'SilentlyContinue'
           $Env:CC='clang'
           $Env:CXX='clang++'
-
           # Clone the repository
           git clone --recursive https://github.com/RajaSunrise/socketify-extra.git socketify-extra
           cd socketify-extra
-
           # Build uWebSockets (assuming it has a CMakeLists.txt)
           cd uWebSockets
           mkdir build
@@ -26,15 +24,12 @@ jobs:
           cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
           ninja
           cd ../../
-
           # Build libsocketify
           cd socketify_extra\native
           vcpkg install libuv:x64-windows-static-md
           vcpkg integrate install
-
           # Assuming you have a Makefile in socketify_extra/native
-          make macos-arm64-libuv-static-cmake # Adjust to your Makefile target
-
+          make windows-release-libuv-static # Adjust to your Makefile target
           # Update the git repository
           cd ..
           git add libsocketify_windows_amd64.dll
