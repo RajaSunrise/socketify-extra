@@ -15,4 +15,4 @@ jobs:
           git config --global user.email "indra020204@gmail.com"
           git config --global user.name "RajaSunrise"
           git commit -m "[GitHub Actions] Updated darwin-amd64" || true
-          git push "https://RajaSunrise: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@github.com/RajaSunrise/socketify-extra.git"
+          git push "https://RajaSunrise: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@github.com/RajaSunrise/socketify-extra.git"
