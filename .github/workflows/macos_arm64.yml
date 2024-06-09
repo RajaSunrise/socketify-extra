@@ -14,7 +14,7 @@ jobs:
           cmake --build .
           cd ../
           git clone --recursive https://github.com/RajaSunrise/socketify-extra
-          cd socketify-extra/socketify/native
+          cd socketify-extra/socketify_extra/native
           make macos-arm64-libuv-static-cmake
           cd ../
           git add libsocketify_darwin_arm64.so
