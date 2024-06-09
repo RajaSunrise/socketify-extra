@@ -2,7 +2,7 @@ name: macOS Build
 on: workflow_dispatch
 jobs:
  build-macos:
-    runs-on: macos-11.0
+    runs-on: macos-12.0
     name: Build on darwin-amd64
     steps:
       - name: Update binaries
