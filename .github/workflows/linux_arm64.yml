@@ -3,33 +3,43 @@ name: Linux ARM64 Build
 on:
   push:
     branches:
-      - main
+      - main  # Or your desired branch for triggering the workflow
 
 jobs:
   build-linux-arm64:
     runs-on: ubuntu-20.04
     name: Build for Linux ARM64
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Set up ARM64 environment
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt update
+          sudo apt install -y libuv1-dev gcc-aarch64-linux-gnu
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Set up Go environment
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'  # Ensure this matches the required Go version
 
       - name: Clone repository
         run: |
-          git clone --recursive https://github.com/RajaSunrise/socketify-extra.git
-          cd socketify-extra/socketify_extra/native
+          git clone --recursive https://github.com/RajaSunrise/socketify-extra.git  # Clone the repository
 
-      - name: Build for ARM64 using Docker
+      - name: Cross-compile err_data_generate
         run: |
-          docker run --rm -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp gcc-arm64 make PLATFORM=arm64 linux
+          cd socketify-extra/socketify_extra/uWebSockets/uSockets/boringssl
+          GOOS=linux GOARCH=arm64 go build -o err_data_generate crypto/err_data_generate.go
+
+      - name: Build for ARM64
+        run: |
+          cd socketify-extra/socketify_extra
+          make PLATFORM=arm64 linux
 
       - name: Commit and push changes
         run: |
-          cd socketify-extra
+          cd socketify-extra/socketify_extra  # Ensure this is the correct path where the built files are
           git config --global user.email "rajasunsrise@gmail.com"
           git config --global user.name "RajaSunrise"
-          git add socketify_extra/libsocketify_linux_arm64.so
+          git add libsocketify_linux_arm64.so
           git commit -m "[GitHub Actions] Updated linux-arm64 binaries" || true
-          git push origin -f https://RajaSunrise:${{ secrets.BUILDTOKEN }}@github.com/RajaSunrise/socketify-extra.git
+          git push origin -f "https://RajaSunrise:${{ secrets.BUILDTOKEN }}@github.com/RajaSunrise/socketify-extra.git"
