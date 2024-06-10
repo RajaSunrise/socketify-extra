@@ -1,4 +1,4 @@
-name: Linux Build
+name: Linux Build arm64
 on: workflow_dispatch
 jobs:
   build-linux-arm64:
