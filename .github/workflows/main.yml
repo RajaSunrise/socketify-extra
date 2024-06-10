@@ -1,20 +1,29 @@
-name: Linux Build arm64
+name: Linux Build
 on: workflow_dispatch
 jobs:
   build-linux-arm64:
     runs-on: ubuntu-20.04
     name: Build on linux-arm64
     steps:
-      - name: Update binaries
+      - name: Set up ARM64 environment
         run: |
           sudo apt update || true
           sudo apt install -y libuv1-dev
           sudo apt install -y g++-arm64-linux-gnu || true  # Install cross-compiler for ARM64
-          git clone --recursive https://github.com/RajaSunrise/socketify-extra.git
+          # Add cross-compiling tools for Go (if needed)
+          # For example:
+          # sudo apt install -y golang-arm64-cross
+          # ...
+      - name: Clone repository
+        uses: actions/checkout@v3
+      - name: Build for ARM64
+        run: |
           cd socketify-extra/socketify_extra/native
           # Cross-compile for ARM64
           GOOS=linux GOARCH=arm64 make linux
           cd ../
+      - name: Commit and push changes
+        run: |
           git add libsocketify_linux_arm64.so
           git config --global user.email "rajasunsrise@gmail.com"
           git config --global user.name "RajaSunrise"
