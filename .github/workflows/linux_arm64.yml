@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt update
-          sudo apt install -y libuv1-dev g++-arm64-linux-gnu
+          sudo apt install -y libuv1-dev gcc-arm64-linux-gnu
       - name: Clone repository
         run: |
           git clone --recursive https://github.com/RajaSunrise/socketify-extra.git  # Clone the repository
