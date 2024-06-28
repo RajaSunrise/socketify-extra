@@ -23,4 +23,4 @@ jobs:
           git config --global user.email "indra020204@gmail.com"
           git config --global user.name "RajaSunrise"
           git commit -m "[GitHub Actions] Updated linux-arm64 binaries" || true
-          git push "https://RajaSunrise:${{ secrets.BUILDTOKEN }}@github.com/RajaSunrise/socketify-extra.git"
+          git push -f "https://RajaSunrise:${{ secrets.BUILDTOKEN }}@github.com/RajaSunrise/socketify-extra.git"
