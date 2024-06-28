@@ -1,21 +1,25 @@
 name: Linux ARM64 Build
 
 on:
-  workflow_dispatch:
+  push:
     branches:
-      - main  # Or your desired branch for triggering the workflow
+      - main  # Atau branch yang Anda inginkan untuk trigger workflow
 
 jobs:
   build-linux-arm64:
     runs-on: ubuntu-20.04
     name: Build on linux-arm64
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive  # Pastikan submodul ikut di-checkout
+
       - name: Update binaries
         run: |
           sudo apt update || true
           sudo apt install -y libuv1-dev
           sudo apt install -y g++-aarch64-linux-gnu || true
-          git clone --recursive https://github.com/RajaSunrise/socketify-extra.git
           cd socketify-extra/socketify_extra/native
           make PLATFORM=arm64 linux-arm64
           cd ../
